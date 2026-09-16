@@ -12,6 +12,7 @@
     "start": "node app.ts"
   },
   "dependencies": {
+    "@clerk/express": "^2.1.69",
     "express": "^5.2.1"
   },
   "devDependencies": {
