@@ -15,9 +15,16 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:frontend": "npm run dev --workspace=client",
+    "start:backend": "npm start --workspace=server",
+    "dev": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
-  "workspaces":[
-    "./"
-  ]
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
 }
