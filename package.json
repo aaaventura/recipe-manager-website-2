@@ -1,29 +1,11 @@
 {
-  "name": "recipe-manager",
-  "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/aaaventura/recipe-manager-website-2#readme",
-  "bugs": {
-    "url": "https://github.com/aaaventura/recipe-manager-website-2/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aaaventura/recipe-manager-website-2.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
+  "private": true,
+  "workspaces": ["client", "server"],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start:frontend": "npm run dev --workspace=client",
     "start:backend": "npm start --workspace=server",
     "dev": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "devDependencies": {
     "concurrently": "^10.0.5"
   }
