@@ -13,3 +13,79 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model User {
+  id         String   @id @default(uuid())
+  first_name String
+  last_name  String
+  username   String   @unique
+  email      String   @unique
+  password   String
+
+  recipes    Recipe[] 
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+
+
+model Recipe {
+  id          String        @id @default(uuid())
+  user_id     String
+  user        User          @relation(fields: [user_id], references: [id])
+
+  directions  Direction[]
+  ingredients Ingredient[]
+  categories  RecipeCategory[]
+
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+}
+
+
+
+model Direction {
+  id           String   @id @default(uuid())
+  recipe_id    String
+  recipe       Recipe   @relation(fields: [recipe_id], references: [id])
+
+  recipe_step  Int
+  description  String
+
+  created_at   DateTime @default(now())
+}
+
+
+
+model Ingredient {
+  id          String   @id @default(uuid())
+  ingredient  String
+  description String   @db.Text
+
+  recipe_id   String
+  recipe      Recipe   @relation(fields: [recipe_id], references: [id])
+
+  created_at  DateTime @default(now())
+}
+
+
+model Category {
+  id            String           @id @default(uuid())
+  category_name String
+
+  recipes       RecipeCategory[]
+}
+
+
+
+model RecipeCategory {
+  id          String   @id @default(uuid())
+
+  recipe_id   String
+  recipe      Recipe   @relation(fields: [recipe_id], references: [id])
+
+  category_id String
+  category    Category @relation(fields: [category_id], references: [id])
+}
+
