@@ -1,21 +1,20 @@
-import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react'
+import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 
 
-export function Header (){
+export function Header(){
+    return(
+        <>
+        <SignedOut>
+            <SignInButton />
 
-    return (
-         <>
-      <header>
-        <Show when="signed-out">
-          <SignInButton />
-          <SignUpButton />
-        </Show>
-        <Show when="signed-in">
-          <UserButton />
-        </Show>
-      </header>
-    </>
-        
+            <SignUpButton />
+        </SignedOut>
+
+        <SignedIn>
+            <UserButton />
+            <h1>SIGNED IN USER</h1>
+        </SignedIn>
+        </>
     )
 }
