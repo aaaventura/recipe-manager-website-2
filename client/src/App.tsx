@@ -57,7 +57,7 @@ function App() {
       <h1>Categories</h1>
 
       {!categories && <p>Loading…</p>}
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {error && <p>Error: {error}</p>}
       {categories && categories.length === 0 && <p>No categories found.</p>}
       {categories && categories.length > 0 && (
         <ul>
