@@ -27,6 +27,7 @@ export function Header(){
                 <nav>
                     <NavLink to={"/"}> HOME </NavLink>
                     <NavLink to={"/recipes"}>RECIPES</NavLink>
+                    <NavLink to={"/userdashboard"}>USER</NavLink>
                 </nav>
             </SignedIn>
 

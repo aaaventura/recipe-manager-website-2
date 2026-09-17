@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom'
 //importing the pages.
 import Homepage from './pages/homepage'
 import RecipeDirectory from './pages/recipe-directory'
+import ProfilePage from './pages/profile'
 
 
 
@@ -23,7 +24,8 @@ function App() {
           <Route path='/' element={<Homepage />} />
 
           <Route path='/recipes' element={<RecipeDirectory />} />
-          {/* next ones to make:  */}
+          <Route path='/userdashboard' element={<ProfilePage /> } />
+          {/* next ones to make:  user dashboard, recipe page, only recipes made by the user can be modified.*/}
         </Routes>
 
       </div>
