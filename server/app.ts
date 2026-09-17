@@ -19,7 +19,7 @@ const app: Express = express();
 const port = 3000;
 
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN ?? 'http://localhost:5173',
+  origin: process.env.CLIENT_ORIGIN ?? 'http://127.0.0.1:5173',
   credentials: true
   // quick reminder: CORS is security line? only allows specified ports to access it. 
   // when we misconfigured our .env in the project, this is what was blocking it. remember that.
@@ -41,7 +41,12 @@ app.get('/category-get', async (req, res) => {
   //try for database
   try {
     const categories = await prisma.category.findMany();
+
+    console.log('[server] query resolved, rows:', categories.length);
+
     res.json(categories);
+    
+
   } catch (err) { //remmeber: every try needs a catch for debugging purposes.
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch categories' });
