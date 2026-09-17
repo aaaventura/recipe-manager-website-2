@@ -1,4 +1,5 @@
 import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from "@clerk/clerk-react";
+import { NavLink } from "react-router-dom";
 
 
 
@@ -23,6 +24,10 @@ export function Header(){
                 <UserButton />
 
                 {/* we'll have the navigation buttons here */}
+                <nav>
+                    <NavLink to={"/"}> HOME </NavLink>
+                    <NavLink to={"/recipes"}>RECIPES</NavLink>
+                </nav>
             </SignedIn>
 
         </header>
