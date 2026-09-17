@@ -5,7 +5,7 @@ import viteLogo from './assets/vite.svg'
 import './App.css'
 
 import { Header } from './components/header'
-import { SignedIn } from '@clerk/clerk-react'
+import { SignedIn, SignedOut } from '@clerk/clerk-react'
 
 
 
@@ -50,24 +50,44 @@ function App() {
   return (
     <>
       <Header />
-      <SignedIn>
-        {/* apply your table here in html. figure out later. */}
-        <div>THIS IS WORKING. the content for the signed in user.</div>
-        <div style={{ padding: 24 }}>
-      <h1>Categories</h1>
 
-      {!categories && <p>Loading…</p>}
-      {error && <p>Error: {error}</p>}
-      {categories && categories.length === 0 && <p>No categories found.</p>}
-      {categories && categories.length > 0 && (
-        <ul>
-          {categories.map((c) => (
-            <li key={c.id}>{c.category_name}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-      </SignedIn>
+
+      {/* this is the home content area */}
+      <div style={{
+        background: 'green',
+      }}>
+        <SignedIn>
+          {/* apply your table here in html. figure out later. */}
+          <div>THIS IS WORKING. the content for the signed in user.</div>
+          <div style={{ padding: 24 }}>
+            <h1>Categories</h1>
+
+            {!categories && <p>Loading…</p>}
+            {error && <p>Error: {error}</p>}
+            {categories && categories.length === 0 && <p>No categories found.</p>}
+            {categories && categories.length > 0 && (
+              <ul>
+                {categories.map((c) => (
+                  <li key={c.id}>{c.category_name}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </SignedIn>
+        
+        <SignedOut>
+          {/* signed out area */}
+          <h1>this is the content of a non authenticated user</h1>
+
+        </SignedOut>
+      </div>
+    
+
+    {/* footer area if needed? */}
+    <footer style={{background:'blue'}}>
+      <p>this is the footer</p>
+    </footer>
+      
     </>
   )
 }
