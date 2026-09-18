@@ -23,7 +23,7 @@ export default function Homepage() {
 
   console.log("render, categories =", categories);
 
-  // // function here to GET the data from api
+  // function here to GET the data from api
   useEffect(() => {
 
     // call api

@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom'
 import Homepage from './pages/homepage'
 import RecipeDirectory from './pages/recipe-directory'
 import ProfilePage from './pages/profile'
+import TestingClerkSupabase from './pages/clerksupabasetest'
 
 
 
@@ -25,6 +26,7 @@ function App() {
 
           <Route path='/recipes' element={<RecipeDirectory />} />
           <Route path='/userdashboard' element={<ProfilePage /> } />
+          <Route path='/clerksupabasetest' element={<TestingClerkSupabase/> } />
           {/* next ones to make:  user dashboard, recipe page, only recipes made by the user can be modified.*/}
         </Routes>
 

@@ -1,22 +1,14 @@
-import { useAuth, SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from "@clerk/clerk-react";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 
 
 export function Header(){
-    const { sessionClaims } = useAuth();
-
-/*
-    testing gathering clerk token first.
+    
 
 
-*/
-    const email = sessionClaims?.email;
 
 
 
@@ -43,10 +35,11 @@ export function Header(){
                     <NavLink to={"/"}> HOME </NavLink>
                     <NavLink to={"/recipes"}>RECIPES</NavLink>
                     <NavLink to={"/userdashboard"}>USER</NavLink>
+                    <NavLink to={"/clerksupabasetest"}>TEST</NavLink>
                 </nav>
             </SignedIn>
 
-            <p>Your user email: {email ?? "NOT LOGGED IN"} </p>
+           
 
         </header>
        
