@@ -36,6 +36,7 @@ IM LEARNING.
         <>
             <h1>WELCOME!</h1>
             <p>welcome to the User Profile Page</p>
+            <p>you are user *imput user email here*</p>
         </>
     )
 }
