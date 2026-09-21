@@ -1,4 +1,7 @@
 
+import { SignedIn, SignedOut } from "@clerk/clerk-react"
+
+import NoAccess from "../components/no-access"
 
 
 export default function ProfilePage() {
@@ -34,9 +37,33 @@ IM LEARNING.
     
     return(
         <>
-            <h1>WELCOME!</h1>
-            <p>welcome to the User Profile Page</p>
-            <p>you are user *imput user email here*</p>
+            <SignedIn>
+                <h1>WELCOME!</h1>
+                <p>welcome to the User Profile Page</p>
+                <p>you are user *imput user email here*</p>
+
+
+                <h1>Here is your Username</h1>
+                {/* dynamic container. */}
+
+
+                <h1>Here is your Email</h1>
+                {/* dynamic container for email. */}
+
+
+                <h1>Recipe count: </h1>
+                {/* dynamic variable container. */}
+
+
+                {/* button to create a recipe as this user */}
+
+
+            </SignedIn>
+            
+
+            <SignedOut> 
+                <NoAccess />
+            </SignedOut>
         </>
     )
 }

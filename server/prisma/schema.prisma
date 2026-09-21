@@ -23,7 +23,6 @@ model User {
   last_name  String
   username   String   @unique
   email      String   @unique
-  password   String
 
   recipes    Recipe[] 
 
