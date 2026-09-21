@@ -1,39 +1,78 @@
 
-import { SignedIn, SignedOut } from "@clerk/clerk-react"
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react"
 
 import NoAccess from "../components/no-access"
+
+import { useEffect, useState } from "react"
+
+import { useUser } from '@clerk/clerk-react';
+
+const server = import.meta.env.SERVER_ORIGIN;
+
+
+
+type UserRow = {
+  id: string;
+  clerk_id: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+};
 
 
 export default function ProfilePage() {
 
-    /*
-  feature bombing this whole thing before end of class.
-  what is needed? 
-  profile name. 
-  profile details. 
-  personal recipe database. just a dump i guess? no images yet.
-  that's it. 
+    const [ clerkId, setClerkId ] = useState<string | {
+       id: string;
+       clerk_id: string;
+       first_name: string;
+       last_name: string;
+       username: string;
+       email: string;
+       created_at: Date;
+       updated_at: Date;
+    }>(null);
+    const [userData, setUserData] = useState<UserRow | null>(null);
 
-  divide them into two areas. page header that displays the user's name. 
-  and then just a dynamic leaderboard style with links to a dynamic  list that is defined by who is logged in.
-  along with that, add buttons to view, modify, and delete. and that should be it.
-  preview could be 
-  title:description preview (cuts off after a certain amount):edit:delete
-  the whole object can be a nav references so that the user can click it. 
-  *this can be reused for the recipe database page too.
+    const { user, isLoaded } = useUser();
+    
 
-  other details 
-  make the naming convention consistent. dashboard and user and profile are goign to be confusing in the future
-  research the clerk authentication and how to connect it to the user. 
-    maybe, before we do this, we should figure out the storing of clerk id in database
-    that part completely slipped my mind.
-before we move on. map what clerk is actually doing in here right now. before we start trying to do weird things.
 
-we're going to do the webhook method. 
-that's also one of the reasons why we have to directly connect our database with clerk because the webhook is what triggers the database to create the user. 
-IM LEARNING.
+    // grabbing user varaible from user api. 
+    useEffect(() => {
+        if (!isLoaded || !user) return; // wait for clerk. if not loaded skip.
+        
 
-*/
+        // call api
+        const userResult = fetch(`http://localhost:3000/user-get?clerk_id=${user.id}`, {
+            credentials: 'include',
+        })
+        // handling initial hit.
+        .then((res) => {// error handling
+
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json();
+        })
+        .then((res) => {//state update
+            //setting the variable with the response
+            setUserData(res);        
+        })
+
+        console.log("only happen one");
+        
+    }, [isLoaded, user?.id])
+
+    
+
+    
+    console.log("printing out user id: " ,userData?.id);
+    
+
+
+    // recipes
     
     return(
         <>
@@ -44,11 +83,11 @@ IM LEARNING.
 
 
                 <h1>Here is your Username</h1>
-                {/* dynamic container. */}
+                { userData?.username ?? "nothing" }
 
-
+ 
                 <h1>Here is your Email</h1>
-                {/* dynamic container for email. */}
+                { userData?.email ?? "nothing" }
 
 
                 <h1>Recipe count: </h1>

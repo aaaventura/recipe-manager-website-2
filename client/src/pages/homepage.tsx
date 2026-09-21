@@ -12,6 +12,10 @@ type Category = {
 
 
 
+const server = import.meta.env.SERVER_ORIGIN;
+
+
+
 export default function Homepage() {
 
 

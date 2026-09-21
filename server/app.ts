@@ -54,6 +54,30 @@ app.get('/category-get', async (req, res) => {
   
 })
 
+
+
+app.get('/user-get', async (req, res) => {
+  console.log('clerk_id:', req.query.clerk_id);
+  try{
+    
+    // is given the current clerk_id. 
+    const clerk_id = req.query.clerk_id;
+
+    // find user with where clerk_id: query 
+    const userRow = await prisma.user.findUnique({ where: { clerk_id } });
+
+    res.json(userRow);
+
+   
+
+    // send back as json?
+
+  }catch(err){
+    console.error(err);
+    res.status(500).json({error: 'failed to fetch user'});
+  }
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
