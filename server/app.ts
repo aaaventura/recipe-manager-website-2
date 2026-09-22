@@ -78,6 +78,28 @@ app.get('/user-get', async (req, res) => {
   }
 })
 
+
+app.get("/user-recipe-count", async (req, res) => {
+  // grab clerk id. 
+
+  // call prisma to recipes table based on\
+  // select many where user_id = req 
+
+
+  // count how many 
+
+  // respond just a single number.
+})
+
+
+
+app.post("/create-recipe", async (req, res) => {
+
+
+  
+
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

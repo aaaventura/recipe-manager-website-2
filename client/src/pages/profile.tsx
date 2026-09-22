@@ -22,6 +22,8 @@ type UserRow = {
   updated_at: string;
 };
 
+// type recipeCount
+
 
 export default function ProfilePage() {
 
@@ -47,7 +49,7 @@ export default function ProfilePage() {
         
 
         // call api
-        const userResult = fetch(`http://localhost:3000/user-get?clerk_id=${user.id}`, {
+        fetch(`http://localhost:3000/user-get?clerk_id=${user.id}`, {
             credentials: 'include',
         })
         // handling initial hit.

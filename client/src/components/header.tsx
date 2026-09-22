@@ -106,6 +106,7 @@ export function Header(){
                     <NavLink to={"/recipes"}>RECIPES</NavLink>
                     <NavLink to={"/userdashboard"}>USER</NavLink>
                     <NavLink to={"/clerksupabasetest"}>TEST</NavLink>
+                    <NavLink to={"/createrecipe"}> Create Recipe *test only*</NavLink>
                 </nav>
             </SignedIn>
 
