@@ -1,5 +1,13 @@
 import { SignedIn, SignedOut } from "@clerk/clerk-react"
-import { use, useState } from "react"
+import { useEffect, useState } from "react"
+
+
+
+type Category = {
+  id: string;
+  category_name: string;
+}; 
+
 
 export default function CreateRecipe() {
 
@@ -10,7 +18,8 @@ export default function CreateRecipe() {
     const [ingredientInput, setIngredientInput] = useState('');
     const [ingredients, setIngredients] = useState([]);
 
-    const [categoryList, setCategoryList] = useState ([]); // for database
+    const [categories, setCategories] = useState<Category[] | null>(null);
+
     const [category, setCategory] = useState(''); // for chosen
     const [selectedCategoryList, setSelectedCategoryList] = useState ([]); // for containing selected.
 
@@ -71,14 +80,53 @@ export default function CreateRecipe() {
 
 
     // get from database 
-    // need to fill the container. does this even need to be a usestate? it's not changing.
-    // maybe we can just defined it outside. as its own const.
-    // grab categories from database.
-    // if already applied, return.
+    useEffect(() => {
+        
+        // call api
+        fetch("http://localhost:3000/category-get", {
+        credentials: 'include',
+        })
+        //handling initial connection
+        .then((res) => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            console.log("first response: ", res);
+            return res.json();
+        })
+        //handling the json that's returned (database json)
+        .then((res) => {
 
-    // apply it to a use state array object. 
+            
+            setCategories(res);
 
-    // where i last ended off.
+        });//setting it to the setCategories
+        
+    }, []); 
+   
+
+
+    // onsubmit.
+    const handleCategorySubmit = (e) => {
+        e.preventDefault();
+        if(!category.trim()) return;
+        if (selectedCategoryList.includes(category.trim())) return;
+
+        console.log("triggered handleCategorySubmit");
+
+        console.log("ashdasdhasdhsadhasdhashassahda: ", category);
+
+        setSelectedCategoryList((prev) => [...prev, category.trim()]);
+
+
+        setCategory('');
+
+    }
+
+    // delete category.
+    const handleDeleteCategory = (e) => {
+        console.log("called for deletion: ", e);
+
+        setSelectedCategoryList(prev => prev.filter((_, i) => i != e));
+    }
     
     
 
@@ -132,16 +180,34 @@ export default function CreateRecipe() {
 
 
 
-                        <form> 
+                        <form style={{
+                            margin: '0px 100px',
+                            background: 'gray',
+                        }}
+                        onSubmit={handleCategorySubmit}
+                        
+                        > 
                             <label>Categories</label>
 
-                            <select>
-                                <option>one</option>
-                                <option>one</option>
-                                <option>one</option>
-                                <option>one</option>
-
+                            <select
+                                onChange={(e) => setCategory(e.target.value)}
+                                value={category}
+                            >
+                                <option value="" disabled>-- Choose --</option>
+                                {!categories && <p>Loading…</p>}
+                                {categories && categories.length === 0 && <p>No categories found.</p>}
+                                {categories && categories.length > 0 && (
+                                <ul>
+                                    {categories.map((i) => (
+                                    <option key={i.id} value={i.category_name}>
+                                        {i.category_name}
+                                    </option>
+                                    ))}
+                                </ul>
+                                )}
+                            
                             </select>
+                            
                             {/* dropdown titled categories with react references to change and manipulate categories. */}
                             <button type="submit">Submit</button>
                         </form>
@@ -196,12 +262,19 @@ export default function CreateRecipe() {
 
 
 
-
+                        {/* categories containers. */}
                         <ul style={{
                             margin: '0px 100px',
                             background: 'gray',
                         }}>
-                            <li>categories lists?</li>
+                            <label>Categories</label>
+                            {selectedCategoryList.map((item, i) => (
+                                <li key={i}>
+                                    {item}
+                                    <button type="button" onClick={() => handleDeleteCategory(i)} >✕</button> 
+
+                                </li>
+                            ))}
                         </ul>
 
                     </div>

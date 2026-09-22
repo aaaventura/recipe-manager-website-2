@@ -43,6 +43,7 @@ export default function Homepage() {
     .then((res) => {
       
       setCategories(res);
+
     });//setting it to the setCategories
     
   }, []);
