@@ -5,7 +5,7 @@ import 'dotenv/config';
 
 import express, { type Express, type Request, type Response } from 'express';
 
-import { clerkMiddleware } from '@clerk/express';
+import { clerkMiddleware, getAuth} from '@clerk/express';
 
 import { PrismaClient } from '@prisma/client';
 
@@ -21,13 +21,11 @@ const port = 3000;
 app.use(cors({
   origin: process.env.CLIENT_ORIGIN ?? 'http://127.0.0.1:5173',
   credentials: true
-  // quick reminder: CORS is security line? only allows specified ports to access it. 
-  // when we misconfigured our .env in the project, this is what was blocking it. remember that.
-  // also, only blocks method api calls. crud stuff. should still be able to see the root if on browser url.
 }));
 
 app.use(clerkMiddleware());
 
+app.use(express.json());
 
 
 app.get('/', (req: Request, res: Response) => {
@@ -95,10 +93,29 @@ app.get("/user-recipe-count", async (req, res) => {
 
 app.post("/create-recipe", async (req, res) => {
 
+  const { userId } = getAuth(req);
 
+  if (!userId) {
+
+    console.log("user is not authenticated");
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  console.log(userId);
+  console.log("create recipe called");
+  console.log("body: ", req.body);
+  res.json({ ok: true, message: "pong" });
   
+  // two steps I need to do. 
 
-})
+  // process data to be pushed to database. 
+  // pull, apply... create relations?
+  
+});
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

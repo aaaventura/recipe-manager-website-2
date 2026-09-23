@@ -1,6 +1,8 @@
 import { SignedIn, SignedOut } from "@clerk/clerk-react"
 import { useEffect, useState } from "react"
 
+import { useUser, useAuth} from '@clerk/clerk-react';
+
 
 
 type Category = {
@@ -9,7 +11,19 @@ type Category = {
 }; 
 
 
+
+type Recipe = {
+    user_clerk_id: string;
+    title: string;
+    directions: string[];
+    ingredients: string[];
+    categories: string[];
+};
+
 export default function CreateRecipe() {
+
+    const { user } = useUser();
+    
 
     
     const [directionInput, setDirectionInput] = useState('');
@@ -129,11 +143,91 @@ export default function CreateRecipe() {
     }
     
     
+    const [recipeTitle, setRecipeTitle] = useState('');
+
+
+
+    const { getToken } = useAuth();
+    // handle full recipe submit.
+    const handleRecipeSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+
+        // if anything is empty, then we return.
+        // if (!recipeTitle || !directions || !ingredients || !selectedCategoryList) return;
+
+        if (!recipeTitle.trim()) return;
+        if (directions.length === 0) return;
+        if (ingredients.length === 0) return;
+        if (selectedCategoryList.length === 0) return;
+
+        const token = await getToken();
+
+        console.log("recipe submit triggered!");
+        console.log("this is the title: ", recipeTitle);
+        console.log("this is the directiosn: ", directions);
+        console.log("this is the ingredients: ", ingredients);
+        console.log("here are the categories: ", selectedCategoryList);
+        
+        //process payload.
+
+        const recipe: Recipe = {
+            user_clerk_id: user.id,
+            title: recipeTitle.trim(),
+            directions,
+            ingredients,
+            categories: selectedCategoryList,
+        };
+
+        console.log("recipe payload log: ", recipe);
+
+
+        console.log(">>> about to call fetch");
+
+        fetch("http://localhost:3000/create-recipe", {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`  
+                    },
+            body: JSON.stringify(recipe),
+        })
+        .then((res) => {
+            console.log(res);
+            if (!res.ok) throw new Error('HTTP ${res.status}');
+            return res.json();
+        })
+        .then((data) => {
+            console.log("saved: ", data);
+        })
+        .catch((err) => {
+            console.error('save failed: ', err);
+        })
+
+
+        // if successful, process to the next page.
+
+
+        // if unsuccessful, do not push
+    }
+
+    // take all values. 
+
+    // process into a json package 
+
+    // perform push. 
+
+    // all thep processing into supabas will be done in express. 
+
+
 
     return(
         <>
             <SignedIn >
                 <h1>welcome to creating your recipe.</h1>
+                <div>
+                    <label>Recipe title:</label>
+                    <input placeholder="Recipe Title." onChange={(e) => setRecipeTitle(e.target.value)}></input>
+                </div>
+
                 <div id="recipe-inbox">
 
                     <div style={{ 
@@ -278,7 +372,11 @@ export default function CreateRecipe() {
                         </ul>
 
                     </div>
-                    
+
+                </div>
+
+                <div>
+                    <button type="button" onClick={() => handleRecipeSubmit()}>Complete Recipe!</button>
                 </div>
 
             </SignedIn>
