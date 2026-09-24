@@ -151,7 +151,17 @@ app.post("/create-recipe", async (req, res) => {
 });
 
 
+app.get("/get-user-recipes", async (req, res) => {
+  const clerkId = req.query.clerk_id as string;
+  if (!clerkId) return res.status(400).json({ error: "clerk_id required" });
 
+  const recipes = await prisma.recipe.findMany({
+    where: { user: { clerk_id: clerkId } },
+    orderBy: { created_at: "desc" },
+  });
+
+  res.json(recipes);
+});
 
 
 

@@ -6,6 +6,7 @@ import NoAccess from "../components/no-access"
 import { useEffect, useState } from "react"
 
 import { useUser } from '@clerk/clerk-react';
+import { NavLink } from "react-router-dom";
 
 const server = import.meta.env.SERVER_ORIGIN;
 
@@ -22,10 +23,18 @@ type UserRow = {
   updated_at: string;
 };
 
-// type recipeCount
-
+interface Recipe {
+  id: string;
+  user_id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+}
 
 export default function ProfilePage() {
+
+
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
 
     const [ clerkId, setClerkId ] = useState<string | {
        id: string;
@@ -67,7 +76,10 @@ export default function ProfilePage() {
         
     }, [isLoaded, user?.id])
 
-    
+
+
+    console.log("printing recipes container: ", recipes);
+
 
     
     console.log("printing out user id: " ,userData?.id);
@@ -75,7 +87,19 @@ export default function ProfilePage() {
 
 
     // recipes
-    
+    useEffect(() => {
+        if (!isLoaded || !user) return;
+
+        fetch(`http://localhost:3000/get-user-recipes?clerk_id=${user.id}`)
+            .then((res) => res.json())
+            .then((data: Recipe[]) => {
+                console.log("recipes:", data);
+                setRecipes(data);
+                console.log("printing recipes container: ", recipes);
+            })
+            .catch((err) => console.error(err));
+        }, [isLoaded, user?.id]);
+
     return(
         <>
             <SignedIn>
@@ -93,10 +117,23 @@ export default function ProfilePage() {
 
 
                 <h1>Recipe count: </h1>
-                {/* dynamic variable container. */}
+                <h3>{recipes.length}</h3>
+        
+                <h1>Recipes!</h1>
+                <div>
+                    {recipes.map((recipe) => (
+                        <div key={recipe.id}>
+
+                            <NavLink to={"/recipepage"}><h2>{recipe.title}</h2></NavLink>
+
+                        </div>
+                    ))}
+                </div>
+                
 
 
                 {/* button to create a recipe as this user */}
+                <NavLink to={"/createrecipe"}> Create Recipe *test only*</NavLink>
 
 
             </SignedIn>
