@@ -12,6 +12,7 @@ import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 
 
+
 export const prisma = new PrismaClient(); //orm object. use this whenever interacting with Databsae.
 
 
@@ -103,12 +104,49 @@ app.post("/create-recipe", async (req, res) => {
   console.log(userId);
   console.log("create recipe called");
   console.log("body: ", req.body);
-  res.json({ ok: true, message: "pong" });
+  
+
+  console.log("Pushing the stuff.")
+  const recipe = await prisma.recipe.create({
+      data: {
+        title: req.body.title.trim(),
+        user: {
+          connect: { clerk_id: userId }, 
+        },
+        ingredients: {
+          create: req.body.ingredients.map((name: string) => ({
+            ingredient: name,
+            description: "",
+          })),
+        },
+        directions: {
+          create: req.body.directions.map((description: string, index: number) => ({
+            description,
+            recipe_step: index + 1, 
+          })),
+        },
+        categories: {
+          create: req.body.categories.map((name: string) => ({
+            category: {
+              connectOrCreate: {
+                where: { category_name: name },
+                create: { category_name: name },
+              },
+            },
+          })),
+        },
+      },
+    });
   
   // two steps I need to do. 
 
   // process data to be pushed to database. 
+
+  // order the instructons.
   // pull, apply... create relations?
+  // this is where i last ended off.
+
+  res.json({ ok: true, message: "pong" });
   
 });
 

@@ -61,13 +61,13 @@ export function Header(){
 
             // if it doesn't exist, use supabase to create it. 
             const { data, error } = await supabase.from('User').insert({
-            clerk_id: user.id,
-            email: user.primaryEmailAddress?.emailAddress ?? null,
-            first_name: user.firstName ?? null,
-            last_name: user.lastName ?? null,
-            username: user.username ?? null,
-            updated_at: new Date().toISOString(),
-            created_at: new Date().toISOString(),
+                clerk_id: user.id,
+                email: user.primaryEmailAddress?.emailAddress,
+                first_name: user.firstName ?? null,
+                last_name: user.lastName ?? null,
+                username: user.username,
+                updated_at: new Date().toISOString(),
+                created_at: new Date().toISOString(),
             });
 
             if (error) console.error('Insert failed:', error);

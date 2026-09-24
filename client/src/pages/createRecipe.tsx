@@ -209,15 +209,11 @@ export default function CreateRecipe() {
         // if unsuccessful, do not push
     }
 
-    // take all values. 
-
-    // process into a json package 
-
-    // perform push. 
-
-    // all thep processing into supabas will be done in express. 
 
 
+
+    // if creation success false: show the creation form.
+    // if creation success true: hide creation form, reveal success message and return to home.
 
     return(
         <>
