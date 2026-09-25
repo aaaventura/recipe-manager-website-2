@@ -78,18 +78,6 @@ app.get('/user-get', async (req, res) => {
 })
 
 
-app.get("/user-recipe-count", async (req, res) => {
-  // grab clerk id. 
-
-  // call prisma to recipes table based on\
-  // select many where user_id = req 
-
-
-  // count how many 
-
-  // respond just a single number.
-})
-
 
 
 app.post("/create-recipe", async (req, res) => {
@@ -170,12 +158,54 @@ app.get("/get-all-recipes", async (req, res) => {
   console.log("get all recipes called.");
   
   // recipe grab
-  const recipes = await prisma.recipe.findMany();
+  const recipes = await prisma.recipe.findMany({
+    include: {
+      user: {
+        select: { first_name: true, last_name: true, username: true },
+      }
+    }
+  });
 
   console.log("response: ", recipes);
   res.json(recipes);
 
 })
+
+
+
+app.get("/getrecipepage/:id", async (req, res) => {
+  console.log(`get-recipe-page called: ${req.params.id}`);
+
+  const id = req.params.id;
+
+  try {
+    const recipe = await prisma.recipe.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: { first_name: true, last_name: true, username: true },
+        },
+        directions: {
+          orderBy: { recipe_step: 'asc' },
+        },
+        ingredients: true,
+        categories: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });      
+    res.json(recipe);                    
+                                 
+  } catch (err) {                
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+    return;                      
+  }
+
+  
+});
 
 
 

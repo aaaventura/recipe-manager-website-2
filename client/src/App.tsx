@@ -28,7 +28,7 @@ function App() {
           <Route path='/userdashboard' element={<ProfilePage /> } />
           <Route path='/clerksupabasetest' element={<TestingClerkSupabase/> } />
           <Route path='/createrecipe' element={<CreateRecipe />} />
-          <Route path='/recipepage' element={<RecipePage/> } />
+          <Route path='/recipepage/:id' element={<RecipePage/> } />
 
           {/* next ones to make:  user dashboard, recipe page, only recipes made by the user can be modified.*/}
         </Routes>

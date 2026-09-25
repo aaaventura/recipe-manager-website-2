@@ -105,7 +105,6 @@ export function Header(){
                     <NavLink to={"/"}> HOME </NavLink>
                     <NavLink to={"/recipes"}>RECIPES</NavLink>
                     <NavLink to={"/userdashboard"}>USER</NavLink>
-                    <NavLink to={"/clerksupabasetest"}>TEST</NavLink>
                     
                 </nav>
             </SignedIn>
