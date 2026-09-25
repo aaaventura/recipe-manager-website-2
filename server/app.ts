@@ -165,6 +165,20 @@ app.get("/get-user-recipes", async (req, res) => {
 
 
 
+
+app.get("/get-all-recipes", async (req, res) => {
+  console.log("get all recipes called.");
+  
+  // recipe grab
+  const recipes = await prisma.recipe.findMany();
+
+  console.log("response: ", recipes);
+  res.json(recipes);
+
+})
+
+
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Backend app listening on port ${port}`);
 });
