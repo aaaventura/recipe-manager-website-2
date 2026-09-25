@@ -135,7 +135,7 @@ app.post("/create-recipe", async (req, res) => {
   // this is where i last ended off.
 
   res.json({ ok: true, message: "pong" });
-  
+  res.status(201).json(recipe)
 });
 
 

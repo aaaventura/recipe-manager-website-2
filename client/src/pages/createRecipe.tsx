@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 
 import { useUser, useAuth} from '@clerk/clerk-react';
 
-
+import { useNavigate } from "react-router-dom";
 
 type Category = {
   id: string;
@@ -23,6 +23,8 @@ type Recipe = {
 export default function CreateRecipe() {
 
     const { user } = useUser();
+
+    const navigate = useNavigate();
     
 
     
@@ -147,6 +149,7 @@ export default function CreateRecipe() {
 
 
 
+
     const { getToken } = useAuth();
     // handle full recipe submit.
     const handleRecipeSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -196,7 +199,8 @@ export default function CreateRecipe() {
             return res.json();
         })
         .then((data) => {
-            console.log("saved: ", data);
+            console.log("saved: ", data.id);
+            navigate(`/recipepage/${data.id}`); 
         })
         .catch((err) => {
             console.error('save failed: ', err);
@@ -208,7 +212,6 @@ export default function CreateRecipe() {
 
         // if unsuccessful, do not push
     }
-
 
 
 
