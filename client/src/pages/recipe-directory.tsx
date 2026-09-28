@@ -18,11 +18,15 @@ interface Recipe {
 
 export default function RecipeDirectory() {
 
+
+    const [ isLoading, setIsLoading ] = useState(true);
+
     
     const [result, setResult] = useState<Recipe[]>([]);
 
 
     useEffect(() => {
+        setIsLoading(true);
         fetch(`http://localhost:3000/get-all-recipes`)
             .then((res) => res.json())
             .then((data: Recipe[]) => {
@@ -30,14 +34,19 @@ export default function RecipeDirectory() {
                 setResult(data);
                 console.log("printing recipes container: ", result);
             })
-            .catch((err) => console.error(err));
+            .catch((err) => console.error(err))
+            .finally(() => setIsLoading(false));
         }, []);
     
 
     return(
         <>
             <p>welcome to the recipe directory</p>
+
+            
+
             <div> 
+                {isLoading ? <h1>Loading page</h1> : null}
                 {result.map((r) => (
                     <div style={{
                         background: 'purple',

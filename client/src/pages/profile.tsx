@@ -124,7 +124,7 @@ export default function ProfilePage() {
                     {recipes.map((recipe) => (
                         <div key={recipe.id}>
 
-                            <NavLink to={"/recipepage"}><h2>{recipe.title}</h2></NavLink>
+                            <NavLink to={`/recipepage/${recipe.id}`}><h2>{recipe.title}</h2></NavLink>
 
                         </div>
                     ))}

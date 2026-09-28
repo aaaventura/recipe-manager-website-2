@@ -125,17 +125,8 @@ app.post("/create-recipe", async (req, res) => {
         },
       },
     });
-  
-  // two steps I need to do. 
 
-  // process data to be pushed to database. 
-
-  // order the instructons.
-  // pull, apply... create relations?
-  // this is where i last ended off.
-
-  res.json({ ok: true, message: "pong" });
-  res.status(201).json(recipe)
+  res.status(201).json({ id: recipe.id });
 });
 
 

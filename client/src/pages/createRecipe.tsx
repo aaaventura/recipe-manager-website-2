@@ -25,6 +25,8 @@ export default function CreateRecipe() {
     const { user } = useUser();
 
     const navigate = useNavigate();
+
+    const [ recipeData, setRecipeData ] = useState('');
     
 
     
@@ -145,7 +147,7 @@ export default function CreateRecipe() {
     }
     
     
-    const [recipeTitle, setRecipeTitle] = useState('');
+    const [recipeTitle, setRecipeTitle] = useState();
 
 
 
@@ -200,7 +202,7 @@ export default function CreateRecipe() {
         })
         .then((data) => {
             console.log("saved: ", data.id);
-            navigate(`/recipepage/${data.id}`); 
+            setRecipeData(data.id);  
         })
         .catch((err) => {
             console.error('save failed: ', err);
@@ -214,6 +216,9 @@ export default function CreateRecipe() {
     }
 
 
+    if(recipeData) navigate(`/recipepage/${recipeData}`); 
+
+
 
     // if creation success false: show the creation form.
     // if creation success true: hide creation form, reveal success message and return to home.
@@ -225,6 +230,7 @@ export default function CreateRecipe() {
                 <div>
                     <label>Recipe title:</label>
                     <input placeholder="Recipe Title." onChange={(e) => setRecipeTitle(e.target.value)}></input>
+                    <h1>{recipeData}</h1>
                 </div>
 
                 <div id="recipe-inbox">
