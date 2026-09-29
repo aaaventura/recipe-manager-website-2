@@ -29,6 +29,8 @@ export default function CreateRecipe() {
     const [ recipeData, setRecipeData ] = useState('');
     
 
+    const [ isloading, setIsLoading ] = useState(false);
+
     
     const [directionInput, setDirectionInput] = useState('');
     const [directions, setDirections] = useState([]);
@@ -149,20 +151,34 @@ export default function CreateRecipe() {
     
     const [recipeTitle, setRecipeTitle] = useState();
 
-
-
+    const errors: string[] = [];
+    const [ errorMessages, setErrorMessages ] = useState([]);
 
     const { getToken } = useAuth();
     // handle full recipe submit.
     const handleRecipeSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-
+        setErrorMessages([]);
+        setIsLoading(true);
         // if anything is empty, then we return.
         // if (!recipeTitle || !directions || !ingredients || !selectedCategoryList) return;
 
-        if (!recipeTitle.trim()) return;
-        if (directions.length === 0) return;
-        if (ingredients.length === 0) return;
-        if (selectedCategoryList.length === 0) return;
+
+        if (!recipeTitle) {
+        errors.push("error: title empty");
+        }
+        if (directions.length === 0) {
+        errors.push("error: directions empty");
+        }
+        if (ingredients.length === 0) {
+        errors.push("error: ingredients empty");
+        }
+        if (selectedCategoryList.length === 0) {
+        errors.push("error: categories empty");
+        }
+        
+        setErrorMessages(errors);   // one update, with the final list
+
+        if (errors.length > 0) return;      
 
         const token = await getToken();
 
@@ -206,6 +222,7 @@ export default function CreateRecipe() {
         })
         .catch((err) => {
             console.error('save failed: ', err);
+            
         })
 
 
@@ -213,10 +230,20 @@ export default function CreateRecipe() {
 
 
         // if unsuccessful, do not push
+        
     }
 
 
-    if(recipeData) navigate(`/recipepage/${recipeData}`); 
+    useEffect(() => {
+        if(recipeData) {
+        navigate(`/recipepage/${recipeData}`);
+        setIsLoading(true);
+        }
+        else{
+            setIsLoading(false);
+        } 
+    }, [isloading, recipeData])
+    
 
 
 
@@ -230,7 +257,7 @@ export default function CreateRecipe() {
                 <div>
                     <label>Recipe title:</label>
                     <input placeholder="Recipe Title." onChange={(e) => setRecipeTitle(e.target.value)}></input>
-                    <h1>{recipeData}</h1>
+                    {isloading ? <h1>this is loading</h1> : null}
                 </div>
 
                 <div id="recipe-inbox">
@@ -381,6 +408,9 @@ export default function CreateRecipe() {
                 </div>
 
                 <div>
+                        {errorMessages.map((e, i) => (
+                            <h1 key={i}>{e}</h1>
+                        ))}
                     <button type="button" onClick={() => handleRecipeSubmit()}>Complete Recipe!</button>
                 </div>
 

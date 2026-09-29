@@ -145,22 +145,53 @@ app.get("/get-user-recipes", async (req, res) => {
 
 
 
-app.get("/get-all-recipes", async (req, res) => {
+
+app.get("/get-all-recipes/", async (req, res) => {
+
   console.log("get all recipes called.");
+
+  const { category } = req.query || null;
+  console.log("here is category: ", category);
+
   
+
+
+  const whereQuery = category
+  ? {
+      categories: {
+        some: {
+          category_id: Array.isArray(category) ? { in: category } : category,
+        },
+      },
+    }
+  : {};
+
+  
+
+  console.log("whereQuery: ", whereQuery);
+
   // recipe grab
   const recipes = await prisma.recipe.findMany({
+    where: whereQuery,
     include: {
       user: {
         select: { first_name: true, last_name: true, username: true },
-      }
+      },
+      categories: {
+        include: {                       
+          category: true,               
+        },
+      },
     }
   });
 
-  console.log("response: ", recipes);
+  // console.log("response: ", recipes);
   res.json(recipes);
 
 })
+
+
+
 
 
 
