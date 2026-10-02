@@ -5,6 +5,10 @@ import { useUser, useAuth} from '@clerk/clerk-react';
 
 import { useNavigate } from "react-router-dom";
 
+const server = import.meta.env.VITE_SERVER_ORIGIN;
+
+
+
 type Category = {
   id: string;
   category_name: string;
@@ -103,7 +107,7 @@ export default function CreateRecipe() {
     useEffect(() => {
         
         // call api
-        fetch("http://localhost:3000/category", {
+        fetch(`${server}/category`, {
         credentials: 'include',
         })
         //handling initial connection
@@ -203,7 +207,7 @@ export default function CreateRecipe() {
 
         console.log(">>> about to call fetch");
 
-        fetch("http://localhost:3000/recipes/new", {
+        fetch(`${server}/recipes/new`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json',

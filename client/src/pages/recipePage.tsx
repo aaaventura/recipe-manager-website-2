@@ -5,6 +5,8 @@ import { useEffect } from "react";
 
 import { useState } from "react";
 
+const server = import.meta.env.VITE_SERVER_ORIGIN;
+
 
 
 
@@ -50,7 +52,7 @@ export default function RecipePage() {
 
         console.log("calling recipes called!")
         // fetch data.
-        fetch(`http://localhost:3000/recipe/page/${id}`)
+        fetch(`${server}/recipe/page/${id}`)
         .then((res) => res.json())
         .then((data: Recipe) => {
             console.log("full recipe: ", data);
