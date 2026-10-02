@@ -50,7 +50,7 @@ export default function RecipePage() {
 
         console.log("calling recipes called!")
         // fetch data.
-        fetch(`http://localhost:3000/getrecipepage/${id}`)
+        fetch(`http://localhost:3000/recipe/page/${id}`)
         .then((res) => res.json())
         .then((data: Recipe) => {
             console.log("full recipe: ", data);

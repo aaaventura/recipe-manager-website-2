@@ -103,7 +103,7 @@ export default function CreateRecipe() {
     useEffect(() => {
         
         // call api
-        fetch("http://localhost:3000/category-get", {
+        fetch("http://localhost:3000/category", {
         credentials: 'include',
         })
         //handling initial connection

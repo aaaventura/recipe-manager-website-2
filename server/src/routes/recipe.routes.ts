@@ -9,8 +9,8 @@ import {
 const router = Router();
 
 router.post('/recipes/new', createRecipe);
-router.get('/get-user-recipes', getUserRecipes);
-router.get('/get-all-recipes/', getAllRecipes);
-router.get('/getrecipepage/:id', getRecipePage);
+router.get('/recipes/user/get', getUserRecipes);
+router.get('/recipes/all/get/', getAllRecipes);
+router.get('/recipe/page/:id', getRecipePage);
 
 export default router;

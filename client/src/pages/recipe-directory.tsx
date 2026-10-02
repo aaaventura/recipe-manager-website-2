@@ -35,7 +35,7 @@ export default function RecipeDirectory() {
     useEffect(() => {
         
         // call api
-        fetch("http://localhost:3000/category-get", {
+        fetch("http://localhost:3000/category", {
         credentials: 'include',
         })
         //handling initial connection
@@ -64,7 +64,7 @@ export default function RecipeDirectory() {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`http://localhost:3000/get-all-recipes/?category=`)
+        fetch(`http://localhost:3000/recipes/all/get/?category=`)
             .then((res) => res.json())
             .then((data: Recipe[]) => {
                 console.log("recipes:", data);
@@ -100,7 +100,7 @@ export default function RecipeDirectory() {
             .join('&');
 
 
-        fetch(`http://localhost:3000/get-all-recipes/?${SelectedQuery}`)
+        fetch(`http://localhost:3000/recipes/all/get/?${SelectedQuery}`)
             .then((res) => res.json())
             .then((data: Recipe[]) => {
                 console.log("recipes:", data);
