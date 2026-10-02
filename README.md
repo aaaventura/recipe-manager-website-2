@@ -16,20 +16,6 @@ clerk is first because we connect it to supabase.
 # set up Supabase 
 supabase setup.
 
-add the sql commands here to apply all of security things.
-
-GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO anon, authenticated;
-
-ALTER DEFAULT PRIVILEGES IN SCHEMA public
-  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO anon, authenticated;
-
-alter table "User" alter column id set default gen_random_uuid();
-
-**might change order since we would need to push the schema to do these SQL commands?**
-
-
 
 # clone the repo. 
 
@@ -66,6 +52,24 @@ go into client and do npm install
 go into server and do npm install
 
 there has to be a way to do this all in a single command so that I don't have to go into each directory to install, right?
+
+# migrate schema.
+go into the schema.prisma 
+do npx prisma migrate dev. 
+
+
+after migrating, you change the permissions with the SQL commands
+
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO anon, authenticated;
+
+alter table "User" alter column id set default gen_random_uuid();
+
+**might change order since we would need to push the schema to do these SQL commands?**
 
 
 
