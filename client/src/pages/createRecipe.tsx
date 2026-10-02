@@ -203,7 +203,7 @@ export default function CreateRecipe() {
 
         console.log(">>> about to call fetch");
 
-        fetch("http://localhost:3000/create-recipe", {
+        fetch("http://localhost:3000/recipes/new", {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json',
