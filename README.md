@@ -3,11 +3,31 @@
 # installation setup 
 parts of the installation? 
 
-# dependencies. 
+# Stack
 - node version 24.20.0
+- React@vite
+- Express
 - npm
 - Clerk account
 - Supabase account.
+
+
+# Features
+- Homepage
+- Recipe list page shows all recipes
+- Recipe detail page displays complete recipe information
+- directions display in correct order
+- categories display on recipe pages
+- directory filters by categories
+- recipe creator name displays
+- user registration/login/logout via clerk
+- session persists across page reloads
+- User dashboard (name, email, recipe count, and recipes)
+- create recipe with dynamic ingredient/direction fields
+- select multiple categories
+- form validation + loading states
+- recipe saves with correct ordering and relationships
+
 
 # Installation and Setup
 ## Clone the Repository 
@@ -81,3 +101,7 @@ alter table "User" alter column id set default gen_random_uuid();
 From the project root, start both the client and server: 
 
 npm run dev
+
+# Known Issues
+possible issue where installing node modules from root installs all dependencies in root's node_module directory rather than creating separated directories in their respective directories. 
+solution: reclone the repository and run npm install in the client and server before running it in the root.
