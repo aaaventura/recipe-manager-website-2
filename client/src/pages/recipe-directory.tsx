@@ -4,6 +4,13 @@ import { NavLink } from "react-router-dom";
 
 import { useRef } from "react";
 
+
+
+const server = import.meta.env.VITE_SERVER_ORIGIN;
+
+
+
+
 interface Recipe {
   id: string;
   user_id: string;
@@ -35,7 +42,7 @@ export default function RecipeDirectory() {
     useEffect(() => {
         
         // call api
-        fetch("http://localhost:3000/category-get", {
+        fetch(`${server}/category`, {
         credentials: 'include',
         })
         //handling initial connection
@@ -64,7 +71,7 @@ export default function RecipeDirectory() {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`http://localhost:3000/get-all-recipes/?category=`)
+        fetch(`${server}/recipes/all/get/?category=`)
             .then((res) => res.json())
             .then((data: Recipe[]) => {
                 console.log("recipes:", data);
@@ -100,7 +107,7 @@ export default function RecipeDirectory() {
             .join('&');
 
 
-        fetch(`http://localhost:3000/get-all-recipes/?${SelectedQuery}`)
+        fetch(`${server}/recipes/all/get/?${SelectedQuery}`)
             .then((res) => res.json())
             .then((data: Recipe[]) => {
                 console.log("recipes:", data);

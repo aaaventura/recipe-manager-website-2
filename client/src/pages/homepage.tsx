@@ -12,7 +12,7 @@ type Category = {
 
 
 
-const server = import.meta.env.SERVER_ORIGIN;
+const server = import.meta.env.VITE_SERVER_ORIGIN;
 
 
 
@@ -31,7 +31,7 @@ export default function Homepage() {
   useEffect(() => {
 
     // call api
-    fetch("http://localhost:3000/category-get", {
+    fetch(`${server}/category`, {
       credentials: 'include',
     })
     //handling initial connection

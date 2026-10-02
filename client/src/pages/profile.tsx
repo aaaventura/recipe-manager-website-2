@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { useUser } from '@clerk/clerk-react';
 import { NavLink } from "react-router-dom";
 
-const server = import.meta.env.SERVER_ORIGIN;
+const server = import.meta.env.VITE_SERVER_ORIGIN;
 
 
 
@@ -58,7 +58,7 @@ export default function ProfilePage() {
         
 
         // call api
-        fetch(`http://localhost:3000/user-get?clerk_id=${user.id}`, {
+        fetch(`${server}/user?clerk_id=${user.id}`, {
             credentials: 'include',
         })
         // handling initial hit.
@@ -90,7 +90,7 @@ export default function ProfilePage() {
     useEffect(() => {
         if (!isLoaded || !user) return;
 
-        fetch(`http://localhost:3000/get-user-recipes?clerk_id=${user.id}`)
+        fetch(`${server}/recipes/user/get?clerk_id=${user.id}`)
             .then((res) => res.json())
             .then((data: Recipe[]) => {
                 console.log("recipes:", data);
