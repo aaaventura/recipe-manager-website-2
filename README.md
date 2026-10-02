@@ -1,64 +1,72 @@
-What are the steps that i need. 
-
-
-# description 
+# Recipe Manager Website - Ace Project Space Training
 
 # installation setup 
 parts of the installation? 
 
 # dependencies. 
-node version 24.20.0 is what was used. 
+- node version 24.20.0
+- npm
+- Clerk account
+- Supabase account.
+
+# Installation and Setup
+## Clone the Repository 
+
+git clone respository-url
+
+cd project-repository
+
 
 # Set up Clerk
-set up supabase and clerk. 
-clerk is first because we connect it to supabase. 
+Clerk is configure first so that we can connected it to Supabase for authentication
+
+1. create new application in the clerk dashboard.
+2. Copy Publishable Key and Secret Key for .env files.
+3. Enable Supabase Integration.
 
 # set up Supabase 
-supabase setup.
-
-
-# clone the repo. 
-
-git clone *url*
+1. create a new project in the Supabase Dashboard.
+2. From Project Settings, go to API and copy these:
+    - Project URL for VITE_SUPABASE_URL
+    - anon / public key for VITE_SUPABASE_ANON_KEY
+3. From project settings, go to database and copy these:
+    - connection string(pooler) for DATABASE_URL
+    - Direct conncection string for DIRECT_URL
 
 
 # set up .env
-
+in each service, you are required to make a .env for environment variables.
 ## client .env
 in the client directory, create .env
-parameters for client. 
+Variables:
+VITE_CLERK_PUBLISHABLE_KEY= (Publishable key from your clerk app)
+VITE_SERVER_ORIGIN= (Origin port of the backend server. example: http://localhost:3000)
+VITE_SUPABASE_URL= (Supabase project URL)
+VITE_SUPABASE_ANON_KEY= (Supabase anon key)
 
-VITE_CLERK_PUBLISHABLE_KEY=
-VITE_SERVER_ORIGIN=
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
 
 ## server .env
 in the server directory, create .env
 
-DATABASE_URL=
-
-DIRECT_URL=
-
-CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+DATABASE_URL= (The Supabase pooled connection string)
+DIRECT_URL= (Supabase direct connection string
+CLERK_PUBLISHABLE_KEY= (Publishable key from your clerk app)
+CLERK_SECRET_KEY= (Secret key from clerk app)
 
 
 # install the dependencies in each package. 
-from root, do npm install 
+This package uses npm workspaces; all packages can be installed from the root in a single command: 
+npm install 
 
-go into client and do npm install 
-
-go into server and do npm install
-
-there has to be a way to do this all in a single command so that I don't have to go into each directory to install, right?
+if workspaces aren't configured, install each package seperately.
+cd client && npm install
+cd ../server && npm install
 
 # migrate schema.
-go into the schema.prisma 
-do npx prisma migrate dev. 
+the Prisma schema lives in server/prisma/schema.prisma. run migrations from the server/prisma directory
+npx prisma migrate dev
 
-
-after migrating, you change the permissions with the SQL commands
+After migrations, apply the following SQL in the Supabase SQL Editor to grant the correct permissions.
 
 GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
 
@@ -69,11 +77,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public
 
 alter table "User" alter column id set default gen_random_uuid();
 
-**might change order since we would need to push the schema to do these SQL commands?**
-
-
-
 # run and test.
-npm run dev from root
-this tests everything properly.
+From the project root, start both the client and server: 
 
+npm run dev
