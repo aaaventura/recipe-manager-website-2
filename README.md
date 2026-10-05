@@ -69,7 +69,7 @@ VITE_SUPABASE_ANON_KEY= (Supabase anon key)
 in the server directory, create .env
 
 DATABASE_URL= (The Supabase pooled connection string)
-DIRECT_URL= (Supabase direct connection string
+DIRECT_URL= (Supabase direct connection string)
 CLERK_PUBLISHABLE_KEY= (Publishable key from your clerk app)
 CLERK_SECRET_KEY= (Secret key from clerk app)
 
